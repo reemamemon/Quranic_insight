@@ -2,19 +2,27 @@ import streamlit as st
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 import faiss
+import dask.dataframe as dd
 
-# Load datasets with improved error handling
+# Function to load datasets with improved error handling
 @st.cache_data
-def load_data():
+def load_data(file_path):
     try:
-        hadith_df = pd.read_csv('hadiths.csv', encoding='utf-8', on_bad_lines='warn')
-        quran_df = pd.read_csv('quran.csv', encoding='utf-8', on_bad_lines='warn')
+        # Try loading with pandas first
+        df = pd.read_csv(file_path, encoding='utf-8', on_bad_lines='warn')
     except Exception as e:
-        st.error(f"Error loading datasets: {e}")
-        return None, None
-    return hadith_df, quran_df
+        st.error(f"Error loading dataset with pandas: {e}")
+        # Try loading with dask if pandas fails
+        try:
+            df = dd.read_csv(file_path, encoding='utf-8').compute()
+        except Exception as e:
+            st.error(f"Error loading dataset with dask: {e}")
+            return None
+    return df
 
-hadith_df, quran_df = load_data()
+# Load datasets
+hadith_df = load_data('hadiths.csv')
+quran_df = load_data('quran.csv')
 
 if hadith_df is not None and quran_df is not None:
     # Initialize the Sentence Transformer model

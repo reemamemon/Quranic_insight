@@ -3,12 +3,12 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 import faiss
 
-# Load datasets with error handling
+# Load datasets with improved error handling
 @st.cache_data
 def load_data():
     try:
-        hadith_df = pd.read_csv('hadiths.csv', encoding='utf-8', error_bad_lines=False, warn_bad_lines=True)
-        quran_df = pd.read_csv('quran.csv', encoding='utf-8', error_bad_lines=False, warn_bad_lines=True)
+        hadith_df = pd.read_csv('hadiths.csv', encoding='utf-8', on_bad_lines='warn')
+        quran_df = pd.read_csv('quran.csv', encoding='utf-8', on_bad_lines='warn')
     except Exception as e:
         st.error(f"Error loading datasets: {e}")
         return None, None

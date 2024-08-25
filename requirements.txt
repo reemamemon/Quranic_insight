@@ -1,6 +1,4 @@
-streamlit==1.23.1
-pandas==2.0.3
-pinecone-client==2.2.1
+streamlit==1.23.0
+pandas==2.0.2
 sentence-transformers==2.2.2
-ibm-watsonx-ai==0.2.0
-ibm-watsonx-ai
+faiss-cpu==1.7.3

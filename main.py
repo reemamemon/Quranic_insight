@@ -2,8 +2,7 @@ import streamlit as st
 import pandas as pd
 import pinecone
 from sentence_transformers import SentenceTransformer
-from ibm_watsonx_ai.foundation_models import Model
-from ibm_watsonx_ai import Credentials
+from ibm_watsonx_ai import WatsonXAI  # Update this based on latest API
 
 # Initialize Pinecone
 pinecone.init(api_key='bf3175a2-10b9-4758-b652-3456b4a73d3c', environment='us-west1-gcp')
@@ -16,7 +15,7 @@ index = pinecone.Index(index_name)
 embedding_model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
 
 # Initialize IBM Watsonx AI
-credentials = Credentials(
+watsonx_ai = WatsonXAI(
     api_key="Pc6M6Vuqe4gQsq0ZGfa2FaUVd6G816Emtx_-Era1UjHQ",  # Replace with your API key
     url="https://us-south.ml.cloud.ibm.com"  # Replace with your service URL
 )
@@ -29,10 +28,9 @@ parameters = {
     "top_k": 1,
     "top_p": 1
 }
-model = Model(
+model = watsonx_ai.model(
     model_id=model_id,
     params=parameters,
-    credentials=credentials,
     project_id=project_id
 )
 

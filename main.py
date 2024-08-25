@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import pinecone
 from sentence_transformers import SentenceTransformer
-from ibm_watsonx_ai.foundation_models import Model, Credentials
+from ibm_watsonx_ai.foundation_models import Model
+from ibm_watsonx_ai import Credentials
 
 # Initialize Pinecone
 pinecone.init(api_key='bf3175a2-10b9-4758-b652-3456b4a73d3c', environment='us-west1-gcp')
